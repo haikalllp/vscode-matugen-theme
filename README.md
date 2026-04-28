@@ -13,9 +13,10 @@ Visual Studio Code theme that syncs with your wallpaper palette in real time usi
 
 ## Preview
 
-![image1](https://github.com/user-attachments/assets/c4ba28b4-6e79-4c13-8654-5db53c43653d)
-![image2](https://github.com/user-attachments/assets/4505a2ec-dfff-4b65-b8a5-bed2a8207538)
-![image3](https://github.com/user-attachments/assets/fc2a92e0-6f57-4c95-8c6b-1c85eac999b3)
+![image1](https://github.com/user-attachments/assets/0f648de2-88b6-4b2c-885b-38f0ab909f88)
+![image2](https://github.com/user-attachments/assets/8e847b42-f442-4953-8c3c-9dc618a72e7a)
+![image3](https://github.com/user-attachments/assets/e3e78135-7bf6-4413-b729-e73a08e9ff53)
+![image4](https://github.com/user-attachments/assets/53b5ad1f-c610-4e20-bedd-b69280494042).
 
 </div>
 
@@ -155,15 +156,6 @@ The extension activates after VS Code startup completes. Check:
 
 1. Extension is enabled in the Extensions panel
 2. No errors in Help → Toggle Developer Tools → Console
-
-## Technical Details
-
-- **Cache location:** `<extension>/themes/.matugen-theme-cache.json`
-- **Debounce delay:** 500ms (prevents rapid regeneration)
-- **Polling interval:** 5 seconds (fallback detection)
-- **Write stabilization:** 300ms (waits for file writes to complete)
-
----
 
 ## Contributing
 
