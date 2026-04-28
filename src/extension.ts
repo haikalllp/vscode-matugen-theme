@@ -39,7 +39,7 @@ interface ThemeGenerationResult {
 // Constants
 // ============================================================================
 
-const EXTENSION_VERSION = '1.1.0';
+const EXTENSION_VERSION = '1.0.0';
 const CACHE_DIR = '.cache/matugen';
 const COLORS_FILE = 'vscode-colors';
 const COLORS_JSON_FILE = 'vscode-colors.json';

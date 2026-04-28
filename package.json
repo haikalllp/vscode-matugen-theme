@@ -10,7 +10,7 @@
     }
   ],
   "license": "MIT",
-  "version": "1.1.1",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/haikalllp/vscode-matugen-theme"
@@ -31,6 +31,7 @@
   ],
   "keywords": [
     "theme",
+    "matugen",
     "wallpaper"
   ],
   "icon": "assets/icon.png",
@@ -85,7 +86,8 @@
     "watch": "tsc -watch -p ./",
     "pretest": "npm run compile",
     "lint": "eslint src",
-    "format": "prettier --write src"
+    "format": "prettier --write src",
+    "format:check": "prettier --check src"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

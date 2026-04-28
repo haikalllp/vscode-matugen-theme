@@ -366,7 +366,7 @@ export default (colors: Color[], bordered: boolean) => {
             'activityBar.inactiveForeground': semantic.fgMuted.hex(),
             'activityBar.border': bordered
                 ? semantic.fgMuted.hex() + alpha.faint
-                : (bordered ? semantic.bgElevated : semantic.bg).hex(),
+                : semantic.bg.hex(),
             'activityBar.activeBorder': semantic.accent.hex(),
             'activityBarBadge.background': semantic.accent.hex(),
             'activityBarBadge.foreground': contrastFg.hex(),
@@ -402,7 +402,7 @@ export default (colors: Color[], bordered: boolean) => {
             'sideBar.foreground': semantic.fg.hex() + alpha.muted,
             'sideBar.border': bordered
                 ? semantic.fgMuted.hex() + alpha.faint
-                : (bordered ? semantic.bg : semantic.bgElevated).hex(),
+                : semantic.bgElevated.hex(),
             'sideBarTitle.foreground': semantic.fg.hex(),
             'sideBarSectionHeader.background': semantic.bg.hex(),
             'sideBarSectionHeader.foreground': semantic.fg.hex(),
@@ -435,12 +435,12 @@ export default (colors: Color[], bordered: boolean) => {
             ).hex(),
             'editorGroupHeader.tabsBorder': bordered
                 ? semantic.fgMuted.hex() + alpha.faint
-                : (bordered ? semantic.bg : semantic.bgElevated).hex(),
+                : semantic.bgElevated.hex(),
             'tab.activeBackground': semantic.bg.hex(),
             'tab.activeForeground': semantic.fg.hex(),
             'tab.border': bordered
                 ? semantic.fgMuted.hex() + alpha.faint
-                : (bordered ? semantic.bg : semantic.bgElevated).hex(),
+                : semantic.bgElevated.hex(),
             'tab.activeBorder': bordered ? undefined : semantic.accent.hex(),
             'tab.activeBorderTop': bordered ? semantic.accent.hex() : undefined,
             'tab.unfocusedActiveBorder': bordered ? undefined : semantic.fgMuted.hex(),
