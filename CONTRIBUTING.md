@@ -1,30 +1,40 @@
 # Contributing
 
-## Build
+Thanks for your interest in contributing to Matugen Theme! Here's how to get started.
+
+## Setup
 
 ```bash
-npm install          # Install dependencies
-npm run compile      # Compile TypeScript → out/
-npm run watch        # Compile in watch mode during development
+git clone https://github.com/haikalllp/vscode-matugen-theme.git
+cd vscode-matugen-theme
+npm install
 ```
 
-## Run
+## Development
 
-### Option A: VS Code Run and Debug
+```bash
+npm run compile      # Compile TypeScript → out/
+npm run watch        # Watch mode for development
+npm run lint         # Run ESLint on src/
+```
 
-1. Open this project folder in VS Code
-2. Press **F5** (or go to **Run → Start Debugging**) — this opens a new VS Code Extension Development Host window with the extension loaded
-3. Make sure you have [matugen](https://github.com/InioX/matugen) installed and configured (see [README](./README.md)), then run `matugen` to generate colors
-4. The theme auto-updates when matugen colors change
+## Running the Extension
 
-### Option B: Command Line
+### VS Code Debug (recommended)
+
+1. Open the project in VS Code
+2. Press **F5** — this opens an Extension Development Host with the extension loaded
+3. Make sure [matugen](https://github.com/InioX/matugen) is installed and configured (see [README](./README.md))
+4. Run `matugen` to generate colors — the theme will auto-update
+
+### Command Line
 
 ```bash
 npm run compile
 code --extensionDevelopmentPath="$PWD" .
 ```
 
-Or package and install manually:
+### Package as VSIX
 
 ```bash
 npm run compile
@@ -32,12 +42,17 @@ npx @vscode/vsce package
 code --install-extension matugen-theme-*.vsix
 ```
 
-## Lint
+## Testing
 
-```bash
-npm run lint         # Run ESLint on src/
-```
+The project currently relies on manual testing via the Extension Development Host (**F5**). Before submitting a PR, please verify:
 
-## Test
+- The theme loads correctly in both light and dark modes
+- `Matugen Theme: Update Theme` and `Matugen Theme: Clear Cache` commands work
+- Running `matugen` will trigger an automatic theme update
 
-There are no dedicated test scripts defined beyond `npm run pretest` (which just compiles). The project relies on manual testing via the Extension Development Host (**F5**).
+## Pull Requests
+
+1. Create a feature branch
+2. Make your changes
+3. Run `npm run lint` and fix any issues
+4. Open a PR with a clear description of your changes

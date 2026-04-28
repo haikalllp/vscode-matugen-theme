@@ -1,15 +1,15 @@
+<div align="center">
+
 # Matugen Theme
 
 Visual Studio Code theme that syncs with your wallpaper palette in real time using matugen.
 
-<div align="center">
-
-[![VS Marketplace](https://img.shields.io/visual-studio-marketplace/v/haikalllp.matugen-theme?style=flat-square&label=VS+Marketplace&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=haikalllp.matugen-theme)
-[![Open VSX](https://img.shields.io/open-vsx/v/haikalllp/matugen-theme?style=flat-square&label=Open+VSX&logo=eclipse-ide)](https://open-vsx.org/extension/haikalllp/matugen-theme)
-[![Downloads](https://img.shields.io/visual-studio-marketplace/d/haikalllp.matugen-theme?style=flat-square)](https://marketplace.visualstudio.com/items?itemName=haikalllp.matugen-theme)
-[![License](https://img.shields.io/github/license/haikalllp/vscode-matugen-theme?style=flat-square)](https://github.com/haikalllp/vscode-matugen-theme/blob/master/LICENSE)
-
-</div>
+[![](https://img.shields.io/github/last-commit/haikalllp/vscode-matugen-theme?&style=for-the-badge&color=F38D89&logo=git&logoColor=D9E0EE&labelColor=1E202B)](https://github.com/haikalllp/vscode-matugen-theme/commit/main)
+[![](https://img.shields.io/badge/Matugen-Repo-F38D89?style=for-the-badge&logo=github&logoColor=D9E0EE&labelColor=1E202B)](https://github.com/InioX/matugen)
+[![](https://img.shields.io/visual-studio-marketplace/v/haikalllp.matugen-theme?style=for-the-badge&color=E8857F&logo=visual-studio-code&logoColor=D9E0EE&labelColor=1E202B&label=VS%20Marketplace)](https://marketplace.visualstudio.com/items?itemName=haikalllp.matugen-theme)
+[![](https://img.shields.io/open-vsx/v/haikalllp/matugen-theme?style=for-the-badge&color=F5A29F&logo=eclipse-ide&logoColor=D9E0EE&labelColor=1E202B&label=Open%20VSX)](https://open-vsx.org/extension/haikalllp/matugen-theme)
+[![](https://img.shields.io/visual-studio-marketplace/d/haikalllp.matugen-theme?style=for-the-badge&color=E8857F&logo=visual-studio-code&logoColor=D9E0EE&labelColor=1E202B)](https://marketplace.visualstudio.com/items?itemName=haikalllp.matugen-theme)
+[![](https://img.shields.io/github/license/haikalllp/vscode-matugen-theme?style=for-the-badge&color=F5A29F&logoColor=D9E0EE&labelColor=1E202B)](https://github.com/haikalllp/vscode-matugen-theme/blob/master/LICENSE)
 
 ## Preview
 
@@ -17,35 +17,95 @@ Visual Studio Code theme that syncs with your wallpaper palette in real time usi
 ![image2](https://github.com/user-attachments/assets/4505a2ec-dfff-4b65-b8a5-bed2a8207538)
 ![image3](https://github.com/user-attachments/assets/fc2a92e0-6f57-4c95-8c6b-1c85eac999b3)
 
+</div>
+
 ## Features
 
-- **Real-time color updates:** Instantly adapts the VS Code theme to your current wallpaper palette
-- **Smart caching:** Only regenerates themes when colors actually change (hash-based detection)
-- **Reliable sync:** Dual-strategy watching (file watcher + polling fallback) ensures updates are never missed
-- **Two theme variants:** Clean borderless look or bordered style for editor panes
-- **Automatic light/dark detection:** Theme adapts based on background color luminance
-- **Atomic writes:** Theme files are written atomically to prevent corruption
-- **Zero configuration:** Works out of the box with sensible defaults
+- Real-time color updates synced from your wallpaper palette
+- Automatic light/dark detection based on background luminance
+- Two theme variants: borderless and bordered
+- Zero configuration, works out of the box
 
 ## Requirements
 
-1. **Install [matugen](https://github.com/InioX/matugen):**
-   This extension relies on matugen for generating color palettes.
+1. Install [matugen](https://github.com/InioX/matugen)
 
-2. **Copy templates:**
-   Copy the templates from the [templates](./examples/matugen-templates/) directory to your matugen templates folder.
+2. Copy these templates to your matugen templates folder at `~/.config/matugen/templates`:
 
-3. **Configure matugen:**
-   Set up matugen to generate the required color files:
+   <details>
+   <summary><code>vscode-colors</code></summary>
 
-   ```toml
-   [templates]
-   vscode-colors = { src = 'vscode-colors', dst = '~/.cache/matugen/vscode-colors' }
-   vscode-colors-json = { src = 'vscode-colors.json', dst = '~/.cache/matugen/vscode-colors.json' }
+   ```
+   {{ colors.background.default.hex }}
+   {{ colors.error.default.hex }}
+   {{ colors.secondary.default.hex | saturate: 20.0, hsl }}
+   {{ colors.tertiary.default.hex | saturate: 15.0, hsl }}
+   {{ colors.primary.default.hex }}
+   {{ colors.tertiary.default.hex }}
+   {{ colors.secondary_container.default.hex | saturate: 20.0, hsl }}
+   {{ colors.on_surface_variant.default.hex }}
+   {{ colors.surface_variant.default.hex }}
+   {{ colors.error.default.hex | auto_lightness: 10.0 }}
+   {{ colors.secondary.default.hex | auto_lightness: 10.0 | saturate: 20.0, hsl }}
+   {{ colors.tertiary.default.hex | auto_lightness: 10.0 | saturate: 15.0, hsl }}
+   {{ colors.primary.default.hex | auto_lightness: 10.0 }}
+   {{ colors.tertiary.default.hex | auto_lightness: 10.0 }}
+   {{ colors.primary_container.default.hex | saturate: 10.0, hsl }}
+   {{ colors.on_background.default.hex }}
    ```
 
-4. **Run matugen:**
-   Generate colors with `matugen` or let it run automatically with your wallpaper manager.
+   </details>
+
+   <details>
+   <summary><code>vscode-colors.json</code></summary>
+
+   ```json
+   {
+     "checksum": ":)",
+     "wallpaper": "{{ image }}",
+     "alpha": "100",
+     "special": {
+       "background": "{{ colors.background.default.hex }}",
+       "foreground": "{{ colors.on_background.default.hex }}",
+       "cursor": "{{ colors.primary.default.hex }}"
+     },
+     "colors": {
+       "color0": "{{ colors.background.default.hex }}",
+       "color1": "{{ colors.error.default.hex }}",
+       "color2": "{{ colors.secondary.default.hex | saturate: 20.0, hsl }}",
+       "color3": "{{ colors.tertiary.default.hex | saturate: 15.0, hsl }}",
+       "color4": "{{ colors.primary.default.hex }}",
+       "color5": "{{ colors.tertiary.default.hex }}",
+       "color6": "{{ colors.secondary_container.default.hex | saturate: 20.0, hsl }}",
+       "color7": "{{ colors.on_surface_variant.default.hex }}",
+       "color8": "{{ colors.surface_variant.default.hex }}",
+       "color9": "{{ colors.error.default.hex | auto_lightness: 10.0 }}",
+       "color10": "{{ colors.secondary.default.hex | auto_lightness: 10.0 | saturate: 20.0, hsl }}",
+       "color11": "{{ colors.tertiary.default.hex | auto_lightness: 10.0 | saturate: 15.0, hsl }}",
+       "color12": "{{ colors.primary.default.hex | auto_lightness: 10.0 }}",
+       "color13": "{{ colors.tertiary.default.hex | auto_lightness: 10.0 }}",
+       "color14": "{{ colors.primary_container.default.hex | saturate: 10.0, hsl }}",
+       "color15": "{{ colors.on_background.default.hex }}"
+     }
+   }
+   ```
+
+   </details>
+
+3. Add the following to your matugen config:
+
+   ```toml
+   # VS Code matugen extension
+   [templates.vscode-raw]
+   input_path = './templates/vscode-colors'
+   output_path = '~/.cache/matugen/vscode-colors'
+
+   [templates.vscode-json]
+   input_path = './templates/vscode-colors.json'
+   output_path = '~/.cache/matugen/vscode-colors.json'
+   ```
+
+4. Run `matugen` or let it run automatically with your wallpaper manager.
 
 ## How It Works
 
@@ -79,7 +139,7 @@ The extension monitors `~/.cache/matugen/vscode-colors` and `~/.cache/matugen/vs
 ### Theme not updating automatically?
 
 1. Check that matugen is generating files to `~/.cache/matugen/`
-2. Verify the `vscode-colors` file contains 16 hex colors
+2. Verify the `vscode-colors` file contains colors mappings
 3. Try `Matugen Theme: Clear Cache` then `Matugen Theme: Update Theme`
 4. Check the Output panel (View → Output → select "Matugen Theme") for errors
 
@@ -105,6 +165,20 @@ The extension activates after VS Code startup completes. Check:
 
 ---
 
+## Contributing
+
+Contributions are welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md) for setup and development instructions.
+
 ## Credits
 
 - Inspired by the excellent work on [Wal Theme](https://github.com/dlasagno/vscode-wal-theme).
+- Thanks to Saatvik333 for pretty much the source code [Wallust Theme](https://github.com/saatvik333/vscode-wallust-theme).
+- And incredible work by InioX for [Matugen](https://github.com/InioX/matugen).
+
+<br>
+
+<p align="center">
+  <a href="https://github.com/haikalllp/vscode-matugen-theme">
+    <img src="https://img.shields.io/badge/Made%20with%20%E2%9D%A4%EF%B8%8F%20for-Matugen-F38D89?style=for-the-badge&logo=github&logoColor=D9E0EE&labelColor=1E202B" alt="Made with ❤️ for Matugen">
+  </a>
+</p>
