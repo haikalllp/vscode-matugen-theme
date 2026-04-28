@@ -1,6 +1,6 @@
 /**
- * Wallust Theme Extension
- * 
+ * Matugen Theme Extension
+ *
  * Architecture:
  * 1. Hash-based caching - Only regenerate themes when colors actually change
  * 2. Multi-strategy file watching - Combines chokidar + polling fallback
@@ -23,8 +23,6 @@ import template from './template';
 // Types
 // ============================================================================
 
-
-
 interface CacheState {
     colorsHash: string;
     lastUpdated: number;
@@ -41,11 +39,11 @@ interface ThemeGenerationResult {
 // Constants
 // ============================================================================
 
-const EXTENSION_VERSION = '1.1.0';
-const CACHE_DIR = '.cache/wallust';
-const COLORS_FILE = 'colors';
-const COLORS_JSON_FILE = 'colors.json';
-const CACHE_STATE_FILE = '.wallust-theme-cache.json';
+const EXTENSION_VERSION = '1.0.0';
+const CACHE_DIR = '.cache/matugen';
+const COLORS_FILE = 'vscode-colors';
+const COLORS_JSON_FILE = 'vscode-colors.json';
+const CACHE_STATE_FILE = '.matugen-theme-cache.json';
 
 const THEMES_DIR = path.join(__dirname, '..', 'themes');
 const REQUIRED_COLORS_COUNT = 16;
@@ -57,9 +55,9 @@ const STARTUP_DELAY_MS = 500;
 const WATCHER_STABILITY_MS = 300;
 
 // Paths
-const wallustCachePath = path.join(os.homedir(), CACHE_DIR);
-const wallustColorsPath = path.join(wallustCachePath, COLORS_FILE);
-const wallustColorsJsonPath = path.join(wallustCachePath, COLORS_JSON_FILE);
+const matugenCachePath = path.join(os.homedir(), CACHE_DIR);
+const matugenColorsPath = path.join(matugenCachePath, COLORS_FILE);
+const matugenColorsJsonPath = path.join(matugenCachePath, COLORS_JSON_FILE);
 const cacheStatePath = path.join(THEMES_DIR, CACHE_STATE_FILE);
 
 // ============================================================================
@@ -85,17 +83,17 @@ class ThemeManager {
 
         // Register commands
         context.subscriptions.push(
-            vscode.commands.registerCommand('wallustTheme.update', () => this.forceUpdate()),
-            vscode.commands.registerCommand('wallustTheme.clearCache', () => this.clearCache())
+            vscode.commands.registerCommand('matugenTheme.update', () => this.forceUpdate()),
+            vscode.commands.registerCommand('matugenTheme.clearCache', () => this.clearCache()),
         );
 
         // Setup configuration listener
         context.subscriptions.push(
-            vscode.workspace.onDidChangeConfiguration(event => {
-                if (event.affectsConfiguration('wallustTheme')) {
+            vscode.workspace.onDidChangeConfiguration((event) => {
+                if (event.affectsConfiguration('matugenTheme')) {
                     this.handleConfigChange();
                 }
-            })
+            }),
         );
 
         // Initial sync after short delay to not block activation
@@ -123,30 +121,34 @@ class ThemeManager {
     private createStatusBarItem(): void {
         this.statusBarItem = vscode.window.createStatusBarItem(
             vscode.StatusBarAlignment.Right,
-            100
+            100,
         );
-        this.statusBarItem.command = 'wallustTheme.update';
-        this.statusBarItem.tooltip = 'Wallust Theme - Click to update';
+        this.statusBarItem.command = 'matugenTheme.update';
+        this.statusBarItem.tooltip = 'Matugen Theme - Click to update';
         this.context?.subscriptions.push(this.statusBarItem);
     }
 
     private updateStatusBar(state: 'idle' | 'syncing' | 'error' | 'success'): void {
-        if (!this.statusBarItem) return;
+        if (!this.statusBarItem) {
+            return;
+        }
 
         switch (state) {
             case 'syncing':
-                this.statusBarItem.text = '$(sync~spin) Wallust';
+                this.statusBarItem.text = '$(sync~spin) Matugen';
                 this.statusBarItem.backgroundColor = undefined;
                 this.statusBarItem.show();
                 break;
             case 'error':
-                this.statusBarItem.text = '$(error) Wallust';
-                this.statusBarItem.backgroundColor = new vscode.ThemeColor('statusBarItem.errorBackground');
+                this.statusBarItem.text = '$(error) Matugen';
+                this.statusBarItem.backgroundColor = new vscode.ThemeColor(
+                    'statusBarItem.errorBackground',
+                );
                 this.statusBarItem.show();
                 setTimeout(() => this.updateStatusBar('idle'), 3000);
                 break;
             case 'success':
-                this.statusBarItem.text = '$(check) Wallust';
+                this.statusBarItem.text = '$(check) Matugen';
                 this.statusBarItem.backgroundColor = undefined;
                 this.statusBarItem.show();
                 setTimeout(() => this.updateStatusBar('idle'), 2000);
@@ -163,18 +165,18 @@ class ThemeManager {
     // ========================================================================
 
     private isAutoUpdateEnabled(): boolean {
-        return vscode.workspace.getConfiguration('wallustTheme').get('autoUpdate', true);
+        return vscode.workspace.getConfiguration('matugenTheme').get('autoUpdate', true);
     }
 
     private handleConfigChange(): void {
         const autoUpdate = this.isAutoUpdateEnabled();
-        
+
         if (autoUpdate && !this.watcher) {
             this.startWatching();
-            vscode.window.showInformationMessage('Wallust Theme: Auto-update enabled');
+            vscode.window.showInformationMessage('Matugen Theme: Auto-update enabled');
         } else if (!autoUpdate && this.watcher) {
             this.stopWatching();
-            vscode.window.showInformationMessage('Wallust Theme: Auto-update disabled');
+            vscode.window.showInformationMessage('Matugen Theme: Auto-update disabled');
         }
     }
 
@@ -185,7 +187,7 @@ class ThemeManager {
     private startWatching(): void {
         this.startFileWatcher();
         this.startPollingFallback();
-        console.log('Wallust Theme: Started watching for color changes');
+        console.log('Matugen Theme: Started watching for color changes');
     }
 
     private stopWatching(): void {
@@ -201,18 +203,18 @@ class ThemeManager {
             clearTimeout(this.debounceTimer);
             this.debounceTimer = null;
         }
-        console.log('Wallust Theme: Stopped watching');
+        console.log('Matugen Theme: Stopped watching');
     }
 
     private startFileWatcher(): void {
         try {
-            this.watcher = chokidar.watch([wallustColorsPath, wallustColorsJsonPath], {
+            this.watcher = chokidar.watch([matugenColorsPath, matugenColorsJsonPath], {
                 ignoreInitial: true,
                 persistent: true,
                 usePolling: false,
                 awaitWriteFinish: {
                     stabilityThreshold: WATCHER_STABILITY_MS,
-                    pollInterval: 100
+                    pollInterval: 100,
                 },
                 ignorePermissionErrors: true,
             });
@@ -220,12 +222,11 @@ class ThemeManager {
             this.watcher.on('change', () => this.scheduleUpdate('watcher'));
             this.watcher.on('add', () => this.scheduleUpdate('watcher'));
             this.watcher.on('error', (error) => {
-                console.error('Wallust Theme: Watcher error:', error);
+                console.error('Matugen Theme: Watcher error:', error);
                 // Don't show error to user, polling fallback will handle it
             });
-
         } catch (error) {
-            console.error('Wallust Theme: Failed to create watcher:', error);
+            console.error('Matugen Theme: Failed to create watcher:', error);
             // Polling fallback will handle updates
         }
     }
@@ -237,7 +238,7 @@ class ThemeManager {
             try {
                 const currentHash = await this.computeColorsHash();
                 if (currentHash && this.lastKnownHash && currentHash !== this.lastKnownHash) {
-                    console.log('Wallust Theme: Polling detected change');
+                    console.log('Matugen Theme: Polling detected change');
                     this.scheduleUpdate('polling');
                 }
             } catch {
@@ -250,10 +251,10 @@ class ThemeManager {
         if (this.debounceTimer) {
             clearTimeout(this.debounceTimer);
         }
-        
+
         this.debounceTimer = setTimeout(async () => {
             this.debounceTimer = null;
-            console.log(`Wallust Theme: Update triggered by ${source}`);
+            console.log(`Matugen Theme: Update triggered by ${source}`);
             await this.syncThemes(false);
         }, DEBOUNCE_DELAY_MS);
     }
@@ -264,11 +265,11 @@ class ThemeManager {
 
     private async computeColorsHash(): Promise<string | null> {
         try {
-            const colorsContent = await fsPromises.readFile(wallustColorsPath, 'utf-8');
+            const colorsContent = await fsPromises.readFile(matugenColorsPath, 'utf-8');
             let jsonContent = '';
-            
+
             try {
-                jsonContent = await fsPromises.readFile(wallustColorsJsonPath, 'utf-8');
+                jsonContent = await fsPromises.readFile(matugenColorsJsonPath, 'utf-8');
             } catch {
                 // colors.json is optional
             }
@@ -299,26 +300,26 @@ class ThemeManager {
         try {
             await fsPromises.writeFile(cacheStatePath, JSON.stringify(state, null, 2), 'utf-8');
         } catch (error) {
-            console.warn('Wallust Theme: Failed to save cache state:', error);
+            console.warn('Matugen Theme: Failed to save cache state:', error);
         }
     }
 
     private async isCacheValid(): Promise<{ valid: boolean; currentHash: string | null }> {
         const currentHash = await this.computeColorsHash();
-        
+
         if (!currentHash) {
             return { valid: false, currentHash: null };
         }
 
         const cacheState = await this.loadCacheState();
-        
+
         if (!cacheState) {
             return { valid: false, currentHash };
         }
 
         // Invalidate cache if extension version changed
         if (cacheState.version !== EXTENSION_VERSION) {
-            console.log('Wallust Theme: Cache invalidated due to version change');
+            console.log('Matugen Theme: Cache invalidated due to version change');
             return { valid: false, currentHash };
         }
 
@@ -331,7 +332,7 @@ class ThemeManager {
         try {
             await fsPromises.unlink(cacheStatePath);
             this.lastKnownHash = null;
-            vscode.window.showInformationMessage('Wallust Theme: Cache cleared');
+            vscode.window.showInformationMessage('Matugen Theme: Cache cleared');
         } catch {
             // Cache file might not exist
         }
@@ -342,23 +343,23 @@ class ThemeManager {
     // ========================================================================
 
     private async performInitialSync(): Promise<void> {
-        // Check if wallust colors exist
-        if (!fs.existsSync(wallustColorsPath)) {
-            console.log('Wallust Theme: No colors file found, skipping initial sync');
+        // Check if matugen colors exist
+        if (!fs.existsSync(matugenColorsPath)) {
+            console.log('Matugen Theme: No colors file found, skipping initial sync');
             return;
         }
 
         // Check cache validity
         const { valid, currentHash } = await this.isCacheValid();
-        
+
         if (valid) {
-            console.log('Wallust Theme: Cache is valid, skipping regeneration');
+            console.log('Matugen Theme: Cache is valid, skipping regeneration');
             this.lastKnownHash = currentHash;
             return;
         }
 
         // Themes need to be regenerated
-        console.log('Wallust Theme: Initial sync - regenerating themes');
+        console.log('Matugen Theme: Initial sync - regenerating themes');
         await this.syncThemes(false);
     }
 
@@ -369,7 +370,7 @@ class ThemeManager {
     private async syncThemes(showFeedback: boolean): Promise<ThemeGenerationResult> {
         // Prevent concurrent generation
         if (this.isGenerating) {
-            console.log('Wallust Theme: Generation already in progress');
+            console.log('Matugen Theme: Generation already in progress');
             return { success: false, cached: false };
         }
 
@@ -381,7 +382,7 @@ class ThemeManager {
             if (!showFeedback) {
                 const { valid, currentHash } = await this.isCacheValid();
                 if (valid) {
-                    console.log('Wallust Theme: Skipping - cache is valid');
+                    console.log('Matugen Theme: Skipping - cache is valid');
                     this.lastKnownHash = currentHash;
                     this.updateStatusBar('idle');
                     return { success: true, cached: true };
@@ -390,7 +391,7 @@ class ThemeManager {
 
             // Load and validate colors
             const colors = await this.loadColors();
-            
+
             // Compute hash for caching
             const currentHash = await this.computeColorsHash();
 
@@ -404,25 +405,23 @@ class ThemeManager {
             }
 
             this.updateStatusBar('success');
-            
+
             if (showFeedback) {
-                vscode.window.showInformationMessage('Wallust Theme: Themes updated successfully!');
+                vscode.window.showInformationMessage('Matugen Theme: Themes updated successfully!');
             }
 
             return { success: true, cached: false };
-
         } catch (error) {
             const err = error instanceof Error ? error : new Error(String(error));
             this.updateStatusBar('error');
-            
+
             if (showFeedback) {
                 this.showError(err);
             } else {
-                console.error('Wallust Theme:', err.message);
+                console.error('Matugen Theme:', err.message);
             }
 
             return { success: false, cached: false, error: err };
-
         } finally {
             this.isGenerating = false;
         }
@@ -433,8 +432,11 @@ class ThemeManager {
 
         // Generate all theme content first
         const themes: Array<{ fileName: string; content: string }> = [
-            { fileName: 'wallust.json', content: JSON.stringify(template(colors, false), null, 4) },
-            { fileName: 'wallust-bordered.json', content: JSON.stringify(template(colors, true), null, 4) },
+            { fileName: 'matugen.json', content: JSON.stringify(template(colors, false), null, 4) },
+            {
+                fileName: 'matugen-bordered.json',
+                content: JSON.stringify(template(colors, true), null, 4),
+            },
         ];
 
         // Write to temp files first, then rename (atomic operation)
@@ -479,22 +481,25 @@ class ThemeManager {
     }
 
     private async readBaseColors(): Promise<Color[]> {
-        if (!fs.existsSync(wallustColorsPath)) {
+        if (!fs.existsSync(matugenColorsPath)) {
             throw new Error(
-                'Wallust colors file not found.\n\n' +
-                'Please run wallust to generate a color palette.\n' +
-                `Expected: ${wallustColorsPath}\n\n` +
-                'See: https://codeberg.org/explosion-mental/wallust'
+                'Matugen colors file not found.\n\n' +
+                    'Please run matugen to generate a color palette.\n' +
+                    `Expected: ${matugenColorsPath}\n\n` +
+                    'See: https://github.com/InioX/matugen',
             );
         }
 
-        const colorsData = await fsPromises.readFile(wallustColorsPath, 'utf-8');
-        const colorStrings = colorsData.trim().split(/\s+/).filter(s => s.length > 0);
+        const colorsData = await fsPromises.readFile(matugenColorsPath, 'utf-8');
+        const colorStrings = colorsData
+            .trim()
+            .split(/\s+/)
+            .filter((s) => s.length > 0);
 
         if (colorStrings.length < REQUIRED_COLORS_COUNT) {
             throw new Error(
                 `Invalid colors file: Found ${colorStrings.length} colors, need ${REQUIRED_COLORS_COUNT}.\n` +
-                'Please regenerate with wallust.'
+                    'Please regenerate with matugen.',
             );
         }
 
@@ -511,19 +516,19 @@ class ThemeManager {
     }
 
     private async enhanceWithJsonColors(colors: Color[]): Promise<Color[]> {
-        if (!fs.existsSync(wallustColorsJsonPath)) {
+        if (!fs.existsSync(matugenColorsJsonPath)) {
             return colors;
         }
 
         try {
-            const jsonData = await fsPromises.readFile(wallustColorsJsonPath, 'utf-8');
+            const jsonData = await fsPromises.readFile(matugenColorsJsonPath, 'utf-8');
             const parsed = this.parseColorJson(jsonData);
 
             if (parsed?.special?.background) {
                 try {
                     colors[0] = Color(parsed.special.background);
                 } catch {
-                    console.warn('Wallust Theme: Invalid background in colors.json');
+                    console.warn('Matugen Theme: Invalid background in colors.json');
                 }
             }
 
@@ -531,17 +536,19 @@ class ThemeManager {
                 try {
                     colors[7] = Color(parsed.special.foreground);
                 } catch {
-                    console.warn('Wallust Theme: Invalid foreground in colors.json');
+                    console.warn('Matugen Theme: Invalid foreground in colors.json');
                 }
             }
         } catch (error) {
-            console.warn('Wallust Theme: Could not parse colors.json:', error);
+            console.warn('Matugen Theme: Could not parse colors.json:', error);
         }
 
         return colors;
     }
 
-    private parseColorJson(jsonData: string): any {
+    private parseColorJson(
+        jsonData: string,
+    ): { special?: { background?: string; foreground?: string } } | null {
         try {
             return JSON.parse(jsonData);
         } catch {
@@ -549,7 +556,7 @@ class ThemeManager {
             try {
                 const fixed = jsonData
                     .split('\n')
-                    .filter(line => !line.includes('wallpaper') || !line.includes('\\'))
+                    .filter((line) => !line.includes('wallpaper') || !line.includes('\\'))
                     .join('\n');
                 return JSON.parse(fixed);
             } catch {
@@ -563,13 +570,14 @@ class ThemeManager {
     // ========================================================================
 
     private showError(error: Error): void {
-        const message = error.message.includes('Wallust') || error.message.includes('Invalid')
-            ? error.message
-            : `Wallust Theme Error: ${error.message}`;
+        const message =
+            error.message.includes('Matugen') || error.message.includes('Invalid')
+                ? error.message
+                : `Matugen Theme Error: ${error.message}`;
 
-        vscode.window.showErrorMessage(message, 'Documentation', 'Retry').then(selection => {
+        vscode.window.showErrorMessage(message, 'Documentation', 'Retry').then((selection) => {
             if (selection === 'Documentation') {
-                vscode.env.openExternal(vscode.Uri.parse('https://codeberg.org/explosion-mental/wallust'));
+                vscode.env.openExternal(vscode.Uri.parse('https://github.com/InioX/matugen'));
             } else if (selection === 'Retry') {
                 this.forceUpdate();
             }
@@ -586,11 +594,11 @@ let themeManager: ThemeManager | null = null;
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
     themeManager = new ThemeManager();
     await themeManager.initialize(context);
-    console.log('Wallust Theme: Extension activated');
+    console.log('Matugen Theme: Extension activated');
 }
 
 export function deactivate(): void {
     themeManager?.dispose();
     themeManager = null;
-    console.log('Wallust Theme: Extension deactivated');
+    console.log('Matugen Theme: Extension deactivated');
 }
