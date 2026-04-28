@@ -6,3 +6,6 @@ node_modules
 # Prevent changes to the blank themes
 matugen-bordered.json
 matugen.json
+
+# Cache
+.matugen-theme-cache.json
