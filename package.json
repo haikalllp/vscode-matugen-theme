@@ -1,7 +1,7 @@
 {
   "name": "matugen-theme",
   "displayName": "Matugen Theme",
-  "description": "A theme generated with matugen color palette",
+  "description": "A VSCode theme using Material You color palettes from Matugen",
   "publisher": "haikalllp",
   "author": "haikalllp",
   "contributors": [
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/haikalllp/vscode-matugen-theme#readme",
   "engines": {
-    "vscode": "^1.34.0"
+    "vscode": "^1.100.0"
   },
   "extensionKind": [
     "ui",
@@ -87,13 +87,14 @@
     "pretest": "npm run compile",
     "lint": "eslint src",
     "format": "prettier --write src",
-    "format:check": "prettier --check src"
+    "format:check": "prettier --check src",
+    "clean": "rm -rf out node_modules"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
     "@types/color": "^3.0.2",
     "@types/node": "^22.19.17",
-    "@types/vscode": "^1.116.0",
+    "@types/vscode": "^1.100.0",
     "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.8.3",
