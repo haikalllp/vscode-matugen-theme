@@ -6,7 +6,7 @@ A VSCode theme using Material You color palettes from Matugen.
 
 [![](https://img.shields.io/github/last-commit/haikalllp/vscode-matugen-theme?&style=for-the-badge&color=F38D89&logo=git&logoColor=D9E0EE&labelColor=1E202B)](https://github.com/haikalllp/vscode-matugen-theme/commit/main)
 [![](https://img.shields.io/badge/Matugen-Repo-F38D89?style=for-the-badge&logo=github&logoColor=D9E0EE&labelColor=1E202B)](https://github.com/InioX/matugen)
-[![](https://img.shields.io/badge/VS_Marketplace-v1.0.0-E8857F?style=for-the-badge&logo=visual-studio-code&logoColor=D9E0EE&labelColor=1E202B)](https://marketplace.visualstudio.com/items?itemName=haikalllp.matugen-theme)
+[![](https://img.shields.io/badge/VS_Marketplace-v1.0.1-E8857F?style=for-the-badge&logo=visual-studio-code&logoColor=D9E0EE&labelColor=1E202B)](https://marketplace.visualstudio.com/items?itemName=haikalllp.matugen-theme)
 [![](https://img.shields.io/open-vsx/v/haikalllp/matugen-theme?style=for-the-badge&color=F5A29F&logo=eclipse-ide&logoColor=D9E0EE&labelColor=1E202B&label=Open%20VSX)](https://open-vsx.org/extension/haikalllp/matugen-theme)
 [![](https://img.shields.io/github/license/haikalllp/vscode-matugen-theme?style=for-the-badge&color=F5A29F&logoColor=D9E0EE&labelColor=1E202B)](https://github.com/haikalllp/vscode-matugen-theme/blob/master/LICENSE)
 
