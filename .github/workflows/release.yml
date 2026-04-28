@@ -1,9 +1,10 @@
 name: Release Extension
 
 on:
-  push:
-    tags:
-      - 'v*'
+  # push:
+  #   tags:
+  #     - 'v*'
+  workflow_dispatch:
 
 jobs:
   build:
