@@ -10,19 +10,19 @@
   "colors": {
     "color0": "{{ colors.background.default.hex }}",
     "color1": "{{ colors.error.default.hex }}",
-    "color2": "{{ colors.secondary.default.hex }}",
-    "color3": "{{ colors.tertiary.default.hex }}",
+    "color2": "{{ colors.secondary.default.hex | saturate: 20.0, hsl }}",
+    "color3": "{{ colors.tertiary.default.hex | saturate: 15.0, hsl }}",
     "color4": "{{ colors.primary.default.hex }}",
     "color5": "{{ colors.tertiary.default.hex }}",
-    "color6": "{{ colors.secondary_container.default.hex }}",
+    "color6": "{{ colors.secondary_container.default.hex | saturate: 20.0, hsl }}",
     "color7": "{{ colors.on_surface_variant.default.hex }}",
     "color8": "{{ colors.surface_variant.default.hex }}",
-    "color9": "{{ colors.error.default.hex }}",
-    "color10": "{{ colors.secondary.default.hex }}",
-    "color11": "{{ colors.tertiary.default.hex }}",
-    "color12": "{{ colors.primary.default.hex }}",
-    "color13": "{{ colors.tertiary.default.hex }}",
-    "color14": "{{ colors.primary_container.default.hex }}",
+    "color9": "{{ colors.error.default.hex | auto_lightness: 10.0 }}",
+    "color10": "{{ colors.secondary.default.hex | auto_lightness: 10.0 | saturate: 20.0, hsl }}",
+    "color11": "{{ colors.tertiary.default.hex | auto_lightness: 10.0 | saturate: 15.0, hsl }}",
+    "color12": "{{ colors.primary.default.hex | auto_lightness: 10.0 }}",
+    "color13": "{{ colors.tertiary.default.hex | auto_lightness: 10.0 }}",
+    "color14": "{{ colors.primary_container.default.hex | saturate: 10.0, hsl }}",
     "color15": "{{ colors.on_background.default.hex }}"
   }
 }
