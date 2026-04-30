@@ -2,7 +2,7 @@
 
 # Matugen Theme
 
-A VSCode theme using Material You color palettes from Matugen.
+Visual Studio Code theme that syncs with your wallpaper palette in real time using Matugen.
 
 [![](https://img.shields.io/github/last-commit/haikalllp/vscode-matugen-theme?&style=for-the-badge&color=F38D89&logo=git&logoColor=D9E0EE&labelColor=1E202B)](https://github.com/haikalllp/vscode-matugen-theme/commit/main)
 [![](https://img.shields.io/badge/Matugen-Repo-F38D89?style=for-the-badge&logo=github&logoColor=D9E0EE&labelColor=1E202B)](https://github.com/InioX/matugen)
@@ -37,7 +37,7 @@ A VSCode theme using Material You color palettes from Matugen.
 
    ```
    {{ colors.background.default.hex }}
-   {{ colors.error.default.hex }}
+   {{ colors.on_surface.default.hex | saturate: 70.0, hsl }}
    {{ colors.secondary.default.hex | saturate: 20.0, hsl }}
    {{ colors.tertiary.default.hex | saturate: 15.0, hsl }}
    {{ colors.primary.default.hex }}
@@ -45,7 +45,7 @@ A VSCode theme using Material You color palettes from Matugen.
    {{ colors.secondary_container.default.hex | saturate: 20.0, hsl }}
    {{ colors.on_surface_variant.default.hex }}
    {{ colors.surface_variant.default.hex }}
-   {{ colors.error.default.hex | auto_lightness: 10.0 }}
+   {{ colors.surface_tint.default.hex | saturate: 15.0, hsl }}
    {{ colors.secondary.default.hex | auto_lightness: 10.0 | saturate: 20.0, hsl }}
    {{ colors.tertiary.default.hex | auto_lightness: 10.0 | saturate: 15.0, hsl }}
    {{ colors.primary.default.hex | auto_lightness: 10.0 }}
@@ -70,7 +70,7 @@ A VSCode theme using Material You color palettes from Matugen.
      },
      "colors": {
        "color0": "{{ colors.background.default.hex }}",
-       "color1": "{{ colors.error.default.hex }}",
+       "color1": "{{ colors.on_surface.default.hex | saturate: 70.0, hsl }}",
        "color2": "{{ colors.secondary.default.hex | saturate: 20.0, hsl }}",
        "color3": "{{ colors.tertiary.default.hex | saturate: 15.0, hsl }}",
        "color4": "{{ colors.primary.default.hex }}",
@@ -78,7 +78,7 @@ A VSCode theme using Material You color palettes from Matugen.
        "color6": "{{ colors.secondary_container.default.hex | saturate: 20.0, hsl }}",
        "color7": "{{ colors.on_surface_variant.default.hex }}",
        "color8": "{{ colors.surface_variant.default.hex }}",
-       "color9": "{{ colors.error.default.hex | auto_lightness: 10.0 }}",
+       "color9": "{{ colors.surface_tint.default.hex | saturate: 15.0, hsl }}",
        "color10": "{{ colors.secondary.default.hex | auto_lightness: 10.0 | saturate: 20.0, hsl }}",
        "color11": "{{ colors.tertiary.default.hex | auto_lightness: 10.0 | saturate: 15.0, hsl }}",
        "color12": "{{ colors.primary.default.hex | auto_lightness: 10.0 }}",
